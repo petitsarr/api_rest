@@ -1,8 +1,8 @@
 import mongoose from "mongoose" ;
 
-const stuff = mongoose.Schema  ;
+const stuffs = mongoose.Schema  ;
 
-const stuff = new stuff({
+const stuff = new stuffs({
     title :{
         type : String ,
         required : true 
@@ -16,13 +16,10 @@ const stuff = new stuff({
         required : true
     } ,
     price :{
-        type : String ,
+        type : Number ,
         required : true
     } ,
-    userId : {
-        type : String ,
-        required : true
-    }
+    userId : String
 
 })
 
