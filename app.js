@@ -1,6 +1,7 @@
 import express from "express" ;
 import cors from "cors"
 import router from "./routes/Stuff" 
+import Urouter from "./routes/userRoutes" ;
 import mongoose from "mongoose"
 
 const app = express() ;
@@ -29,5 +30,6 @@ app.use((req, res, next) => {
   app.use(express.json())
 
 app.use("/",router)
+app.use("/auth",Urouter)
 
 app.listen(process.env.PORT || 3200)
