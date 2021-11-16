@@ -6,18 +6,23 @@ import jwt from "jsonwebtoken"
 const Myuser = mongoose.model("Myuser",User)
 
 
-const inscription = async(req,res)=> {
+const inscription = async (req,res)=> {
 try {
 
     const {email ,password} = req.body ;
 
-    const passhash =  await bcrypt(password,10) ; 
-  
+    console.log("l'email et le mot de pass est ==>",email , password) 
+
     const newuser = new Myuser({
         email ,
-        password : passhash  
+        password  
     })
+    console.log("le nouveau user est ===>" , newuser) 
+
+    newuser.password =  await bcrypt.hash(newuser.password,10) ;
+
     await newuser.save()
+    
     if (newuser) {
     res.status(201).json({
         message : "User creé avec succés"
@@ -61,7 +66,7 @@ try {
                         
                         {userId : myuser._id } ,
                         'RANDOM_TOKEN_SECRET',
-                        { expiresIn: '24h' }
+                        { expiresIn: '48h' }
                         
                     )
                 })

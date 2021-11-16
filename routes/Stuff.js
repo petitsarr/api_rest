@@ -1,6 +1,6 @@
 import express from "express" ;
 import  { addNewStuff, getStuff ,getStuffById,updateStuffById ,deleteStuffById} from "../controllers/stuffControllers" 
-import auth from "registry-auth-token";
+import auth from "../Auth/auth"
 const router = express.Router() ;
 
 router.post("/api/stuff",auth ,addNewStuff)
