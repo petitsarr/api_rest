@@ -42,7 +42,7 @@ try {
 
 
 const connection = async (req,res)=>{
-try {
+try { 
     const myuser = await Myuser.findOne({
         email : req.body.email 
     })
@@ -62,17 +62,19 @@ try {
             else {
                 res.status(200).json( {
                     userId : myuser._id ,
-                    token :jwt.sign(
-                        
+                    token :jwt.sign( 
                         {userId : myuser._id } ,
                         'RANDOM_TOKEN_SECRET',
-                        { expiresIn: '48h' }
+                        { expiresIn: '300h' }
                         
                     )
                 })
 
             }
 
+        })
+        .catch((error)=> {
+            console.error(error)
         })
     }
     

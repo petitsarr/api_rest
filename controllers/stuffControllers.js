@@ -42,7 +42,9 @@ const getStuff = async (req,res)=> {
     } catch (error) {
         res.status(400).json({error})
     }
-}
+} 
+
+
 
 const getStuffById = async(req,res)=> {
     try {
