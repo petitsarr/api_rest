@@ -26,4 +26,4 @@ let upload = multer({
     fileFilter : fileFilter
 })
 
-export default upload.single("image")
+export default upload.single("imageUrl")

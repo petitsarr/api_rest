@@ -6,7 +6,10 @@ const mystuff = mongoose.model("mystuff",stuff)
 
 const addNewStuff = async (req,res) => {
     try {
-        const {title,description,imageUrl,price,userId} = req.body ;
+        const {title,description,price,userId} = req.body ;
+
+     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
+
       console.log("mes datas sont ==>",title ,description,imageUrl,price,userId)
      const newStuff = new mystuff({
          title ,
@@ -65,12 +68,24 @@ const getStuffById = async(req,res)=> {
 
 const updateStuffById = async (req,res) => {
     try {
+//On teste si l'user à mis à jour l'image ou pas 
+// si req.file existe on traite la nouvelle image ,sinon on traite simplement l'objet entrante
+        const mybody = req.file ? { 
+            ...req.body ,
+            imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+
+        }  :  
+        {
+            ...req.body 
+        }
+
+
         const newStuff = await mystuff.updateOne(
             {
                 _id : req.params.stuffId
 
             } ,
-            req.body ,
+            mybody,
             {
                 new : true 
             }
@@ -112,4 +127,4 @@ const deleteStuffById = async (req,res) =>{
 }
 
 
-export { addNewStuff, getStuff ,getStuffById,updateStuffById ,deleteStuffById }
+export { addNewStuff, getStuff ,getStuffById,updateStuffById ,deleteStuffById }  

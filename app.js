@@ -2,7 +2,8 @@ import express from "express" ;
 import cors from "cors"
 import router from "./routes/Stuff" 
 import Urouter from "./routes/userRoutes" ;
-import mongoose from "mongoose"
+import mongoose from "mongoose" ;
+import path from "path"
 
 const app = express() ;
 
@@ -22,7 +23,7 @@ app.use((req, res, next) => {
     next();
   });
 
-
+app.use('/images',express.static(path.join(__dirname ,"images")))
   app.use(express.urlencoded({
       extended :true
   }))
