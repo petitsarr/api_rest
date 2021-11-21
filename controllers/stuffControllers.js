@@ -1,5 +1,6 @@
 import mongoose from "mongoose"  ;
-import stuff from "../models/StufffModel";
+import stuff from "../models/StufffModel"; 
+import fs from "fs"
 
 const mystuff = mongoose.model("mystuff",stuff)
 
@@ -104,26 +105,44 @@ const updateStuffById = async (req,res) => {
     }
 }
 
-const deleteStuffById = async (req,res) =>{
-    try {
-        const newStuff = await mystuff.deleteOne(
-            {
-                _id : req.params.stuffId
+const deleteStuffById = async (req,res) =>{ 
+
+  mystuff.findOne( {
+
+    _id : req.params.stuffId
+
+})
+
+.then((stuff)=>{
+      const filename = stuff.imageUrl.split('/images/')[1] 
+
+      fs.unlink(`images/${filename}`,async ()=>{
+
+        try {
+            const newStuff = await stuff.deleteOne(
+                {
+                    _id : req.params.stuffId
+                }
+            )
+            if(newStuff) {
+                res.status(200).json({
+                    message : "Suppression avec succés"
+                })
+    
             }
-        )
-        if(newStuff) {
-            res.status(200).json({
-                message : "Suppression avec succés"
-            })
-
+            else{
+                throw new Error("Suppression non réussi")
+    
+            }
+        } catch (error) {
+            res.status(400).send(error)
         }
-        else{
-            throw new Error("Suppression non réussi")
 
-        }
-    } catch (error) {
-        res.status(400).send(error)
-    }
+      })
+}) 
+.catch(error => res.status(500).json({ error }));
+
+    
 }
 
 
